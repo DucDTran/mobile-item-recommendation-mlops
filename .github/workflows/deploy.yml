@@ -109,7 +109,7 @@ jobs:
             
             # Deploy Services
             echo "🔄 Restarting services..."
-            sudo docker-compose -f docker/docker-compose.ymlpull
+            sudo docker-compose -f docker/docker-compose.yml pull
             sudo docker-compose -f docker/docker-compose.yml up -d --remove-orphans
             
             # Cleanup
@@ -139,7 +139,8 @@ jobs:
         with:
           service: ${{ env.SERVICE_NAME }}
           region: ${{ env.REGION }}
-          image: ${{ needs.build-push.outputs.image }}
+          # image: ${{ needs.build-push.outputs.image }}
+          image: ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
           flags: "--allow-unauthenticated --memory=2Gi --cpu=2 --port=8000"
           env_vars: |
             MLFLOW_TRACKING_URI=http://${{ secrets.GCP_VM_IP }}:5000
