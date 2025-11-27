@@ -20,6 +20,8 @@ COPY requirements.txt .
 # Install remaining dependencies with Airflow constraints
 RUN pip install --no-cache-dir -r requirements.txt --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.9.3/constraints-3.11.txt"
 
+ENV HOST 0.0.0.0
+
 COPY src/ /app/src/
 COPY feature_repo/ /app/feature_repo/
 COPY airflow/ /app/airflow/
