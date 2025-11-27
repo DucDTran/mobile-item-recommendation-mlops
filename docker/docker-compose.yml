@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user"]
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "mlops_db"]
       interval: 5s
       retries: 5
 
@@ -40,8 +40,8 @@ services:
       dockerfile: docker/Dockerfile
     container_name: mlops_mlflow
     restart: always
-    # entrypoint: ["/app/init-mlflow-db.sh"]
-    # command: []
+    entrypoint: ["/app/init-mlflow-db.sh"]
+    command: []
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=user
