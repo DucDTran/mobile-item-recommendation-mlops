@@ -52,7 +52,7 @@ jobs:
           docker build \
             -t ${{ steps.set-image.outputs.image }} \
             -t ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest \
-            -f docker/Dockerfile.ml \
+            -f docker/Dockerfile \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             .
       
