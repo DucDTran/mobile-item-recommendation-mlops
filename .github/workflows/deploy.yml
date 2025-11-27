@@ -112,14 +112,14 @@ jobs:
             sudo docker-compose -f docker/docker-compose.yml pull
             sudo docker-compose -f docker/docker-compose.yml up -d --build --remove-orphans
             
-            # Ensure airflow_db exists (init script only runs on fresh postgres)
+            # Ensure databases exist (init script only runs on fresh postgres)
             echo "🔧 Ensuring databases exist..."
             sleep 10  # Wait for postgres to be ready
-            sudo docker exec mlops_postgres psql -U user -d mlflow_db -c "SELECT 1" || true
+            sudo docker exec mlops_postgres psql -U user -d postgres -c "CREATE DATABASE mlflow_db;" 2>/dev/null || echo "mlflow_db already exists"
             sudo docker exec mlops_postgres psql -U user -d postgres -c "CREATE DATABASE airflow_db;" 2>/dev/null || echo "airflow_db already exists"
             
-            # Restart Airflow services to pick up the new database
-            sudo docker-compose -f docker/docker-compose.yml restart airflow-webserver airflow-scheduler
+            # Restart services to pick up the new databases
+            sudo docker-compose -f docker/docker-compose.yml restart mlflow airflow-webserver airflow-scheduler
             
             # Cleanup
             sudo docker image prune -f --filter "until=24h"
