@@ -172,7 +172,7 @@ jobs:
           env_vars: |
             MLFLOW_TRACKING_URI=http://${{ secrets.GCP_VM_IP }}:5000
             FEAST_REPO_PATH=/app/feature_repo
-            REDIS_HOST=${{ secrets.GCP_VM_IP }}
+            REDIS_HOST=http://${{ secrets.GCP_VM_IP }}:6379
             DATA_PATH=/app/data/raw
             LOG_LEVEL=INFO
       
