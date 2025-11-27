@@ -13,6 +13,8 @@ uvicorn
 pydantic
 prometheus-fastapi-instrumentator
 fsspec
+gcsfs
+google-cloud-storage
 pyarrow
 virtualenv
 loguru

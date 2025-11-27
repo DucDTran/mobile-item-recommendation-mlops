@@ -53,11 +53,12 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mlflow_db
       - MLFLOW_BACKEND_STORE_URI=postgresql://user:password@postgres:5432/mlflow_db
-      - MLFLOW_ARTIFACT_ROOT=file:///app/mlflow/artifacts
+      - MLFLOW_ARTIFACT_ROOT=gs://${GCS_BUCKET_NAME:-mobile-item-recommendation-mlflow-artifacts}/artifacts
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/gcp_key.json
     ports:
       - "5000:5000"
     volumes:
-      - ../src/mlruns:/app/mlflow/artifacts
+      - ../secrets/gcp_key.json:/app/secrets/gcp_key.json:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -141,12 +142,13 @@ services:
       - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
       - MLFLOW_TRACKING_URI=http://mlflow:5000
       - PYTHONPATH=/app
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/gcp_key.json
     volumes:
       - ../airflow/dags:/app/airflow/dags
       - ../data:/app/data
       - ../src:/app/src
       - ../feature_repo:/app/feature_repo
-      - ../src/mlruns:/app/mlflow/artifacts  # Shared MLflow artifacts directory
+      - ../secrets/gcp_key.json:/app/secrets/gcp_key.json:ro
     depends_on:
       - airflow-webserver
       - redis # Needs Redis for Feast materialization jobs
