@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt --constraint "https://raw.git
 COPY src/ /app/src/
 COPY feature_repo/ /app/feature_repo/
 COPY airflow/ /app/airflow/
-COPY docker/init-mlflow-db.sh /app/init-mlflow-db.sh
-RUN chmod +x /app/init-mlflow-db.sh
+# COPY docker/init-mlflow-db.sh /app/init-mlflow-db.sh
+# RUN chmod +x /app/init-mlflow-db.sh
 
 CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
