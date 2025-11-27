@@ -8,13 +8,15 @@ services:
     environment:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mlops_db
+      - POSTGRES_DB=mlflow_db
+      - POSTGRES_MULTIPLE_DATABASES=mlflow_db,airflow_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "user", "-d", "mlops_db"]
+      test: ["CMD", "pg_isready", "-U", "user", "-d", "mlflow_db"]
       interval: 5s
       retries: 5
 
@@ -46,8 +48,8 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mlops_db
-      - MLFLOW_BACKEND_STORE_URI=postgresql://user:password@postgres:5432/mlops_db
+      - POSTGRES_DB=mlflow_db
+      - MLFLOW_BACKEND_STORE_URI=postgresql://user:password@postgres:5432/mlflow_db
       - MLFLOW_ARTIFACT_ROOT=file:///app/mlflow/artifacts
     ports:
       - "5000:5000"
@@ -97,7 +99,7 @@ services:
       airflow users create --username admin --password admin --firstname Duc --lastname Tran --role Admin --email admin@example.com || true &&
       airflow webserver"
     environment:
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/mlops_db
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/airflow_db
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
@@ -128,7 +130,7 @@ services:
       airflow db upgrade &&
       airflow scheduler"
     environment:
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/mlops_db
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/airflow_db
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
       - MLFLOW_TRACKING_URI=http://mlflow:5000
