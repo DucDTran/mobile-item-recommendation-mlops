@@ -10,6 +10,7 @@ from loguru import logger
 from contextlib import asynccontextmanager
 from typing import Dict, Any, Optional
 import os
+import asyncio
 from datetime import timedelta
 
 # Configuration
@@ -100,6 +101,23 @@ def load_mlflow_model(timeout: int = 10) -> Any:
     raise Exception("All model loading strategies failed")
 
 
+async def warmup_model():
+    """Background task to warm up the model after server starts."""
+    # Small delay to ensure server is fully ready for health checks
+    await asyncio.sleep(2)
+    
+    logger.info("🔥 Starting background model warmup...")
+    try:
+        # Run blocking model load in thread pool to not block event loop
+        loop = asyncio.get_event_loop()
+        model = await loop.run_in_executor(None, load_mlflow_model, 120)
+        ml_objects["model"] = model
+        logger.info("✓ Model warmed up successfully in background")
+    except Exception as e:
+        logger.warning(f"⚠ Background warmup failed: {e}")
+        logger.warning("Model will be loaded on first prediction request instead")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan manager."""
@@ -113,13 +131,15 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"✗ CRITICAL: Failed to load Feature Store: {e}")
 
-    # NOTE: Model loading is intentionally deferred to first request (lazy loading)
-    # This prevents Cloud Run startup probe timeout since MLflow model download 
-    # can take 30+ seconds. The model will be loaded in validate_service() on first call.
-    logger.info("⏳ Model will be loaded lazily on first prediction request")
+    # Start background warmup task (non-blocking)
+    # This allows the server to start immediately and pass health checks
+    # while the model loads in the background
+    warmup_task = asyncio.create_task(warmup_model())
 
     yield
 
+    # Cancel warmup if still running during shutdown
+    warmup_task.cancel()
     logger.info("🛑 API Lifespan ended")
     ml_objects.clear()
 
