@@ -25,4 +25,4 @@ COPY airflow/ /app/airflow/
 COPY docker/init-mlflow-db.sh /app/init-mlflow-db.sh
 RUN chmod +x /app/init-mlflow-db.sh
 
-CMD ["bash"]
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
