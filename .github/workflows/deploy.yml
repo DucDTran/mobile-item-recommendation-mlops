@@ -141,7 +141,7 @@ jobs:
           region: ${{ env.REGION }}
           # image: ${{ needs.build-push.outputs.image }}
           image: ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          flags: "--allow-unauthenticated --memory=2Gi --cpu=2 --port=8000"
+          flags: "--allow-unauthenticated --memory=4Gi --cpu=2 --timeout=600 --port=8000"
           env_vars: |
             MLFLOW_TRACKING_URI=http://${{ secrets.GCP_VM_IP }}:5000
             FEAST_REPO_PATH=/app/feature_repo
