@@ -79,11 +79,13 @@ services:
       - MLFLOW_TRACKING_URI=http://mlflow:5000
       - FEAST_USAGE=False
       - FEAST_REPO_PATH=/app/feature_repo
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/gcp_key.json
     volumes:
       - ../src:/app/src                  # Hot-reload code
       - ../feature_repo:/app/feature_repo # Hot-reload feature definitions
       - ../data:/app/data                # Access Parquet files
       - ../src/mlruns:/app/mlflow/artifacts   # Access MLflow artifacts (read-only)
+      - ../secrets/gcp_key.json:/app/secrets/gcp_key.json:ro
     depends_on:
       - mlflow
       - redis

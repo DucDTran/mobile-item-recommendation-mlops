@@ -54,7 +54,9 @@ with DAG(
         bash_command='python /app/src/train.py',
         env={
             # Ensure script knows where to find MLflow (Networked container)
-            'MLFLOW_TRACKING_URI': 'http://mlflow:5000'
+            'MLFLOW_TRACKING_URI': 'http://mlflow:5000',
+            # GCS credentials for uploading model artifacts
+            'GOOGLE_APPLICATION_CREDENTIALS': '/app/secrets/gcp_key.json'
         },
         doc_md="Trains XGBoost model, logs to MLflow, and promotes to Production if valid."
     )
