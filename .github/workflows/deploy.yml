@@ -109,11 +109,11 @@ jobs:
             
             # Deploy Services
             echo "🔄 Restarting services..."
-            docker-compose -f docker/docker-compose.ymlpull
-            docker-compose -f docker/docker-compose.yml up -d --remove-orphans
+            sudo docker-compose -f docker/docker-compose.ymlpull
+            sudo docker-compose -f docker/docker-compose.yml up -d --remove-orphans
             
             # Cleanup
-            docker image prune -f --filter "until=24h"
+            sudo docker image prune -f --filter "until=24h"
             echo "✅ Deployment completed successfully!"
 
   # ==========================================
