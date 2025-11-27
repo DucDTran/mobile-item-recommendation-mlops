@@ -110,7 +110,7 @@ jobs:
             # Deploy Services
             echo "🔄 Restarting services..."
             sudo docker-compose -f docker/docker-compose.yml pull
-            sudo docker-compose -f docker/docker-compose.yml up -d --remove-orphans
+            sudo docker-compose -f docker/docker-compose.yml up -d --build --remove-orphans
             
             # Cleanup
             sudo docker image prune -f --filter "until=24h"
