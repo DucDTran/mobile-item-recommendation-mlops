@@ -57,8 +57,11 @@ FEATURE_LIST = [
 ml_objects: Dict[str, Any] = {"model": None, "store": None}
 
 
-def load_mlflow_model() -> Any:
-    """Load MLflow model with fallback strategy."""
+def load_mlflow_model(timeout: int = 10) -> Any:
+    """Load MLflow model with fallback strategy and timeout."""
+    import socket
+    socket.setdefaulttimeout(timeout)  # Set connection timeout
+    
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     os.environ["MLFLOW_TRACKING_URI"] = MLFLOW_TRACKING_URI
     client = mlflow.tracking.MlflowClient(tracking_uri=MLFLOW_TRACKING_URI)
@@ -110,16 +113,12 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"✗ CRITICAL: Failed to load Feature Store: {e}")
 
-    # Load Model
+    # Load Model (with short timeout to not block startup)
     try:
-        ml_objects["model"] = load_mlflow_model()
+        ml_objects["model"] = load_mlflow_model(timeout=15)
     except Exception as e:
-        logger.error(f"✗ CRITICAL: Failed to load Model: {e}")
-        logger.error("Possible causes:")
-        logger.error("  • Model artifacts missing (re-train required)")
-        logger.error("  • MLflow artifact store inaccessible")
-        logger.error("  • Model registered but artifacts not saved")
-        logger.warning("API will start but /predict and /recommend will return 503")
+        logger.warning(f"⚠ Model not loaded during startup: {e}")
+        logger.warning("Model will be loaded on first prediction request")
 
     yield
 
@@ -245,16 +244,22 @@ def get_candidate_items(user_id: int, days_back: int = 1) -> pd.DataFrame:
 
 
 def validate_service() -> tuple[Any, Any]:
-    """Validate that model and store are loaded."""
-    model = ml_objects["model"]
+    """Validate that model and store are loaded, with lazy loading."""
     store = ml_objects["store"]
     
-    if not model:
-        raise HTTPException(status_code=503, detail="Model is not loaded")
     if not store:
         raise HTTPException(status_code=503, detail="Feature Store is not connected")
     
-    return model, store
+    # Lazy load model if not yet loaded
+    if not ml_objects["model"]:
+        logger.info("Model not loaded, attempting lazy load...")
+        try:
+            ml_objects["model"] = load_mlflow_model(timeout=30)
+        except Exception as e:
+            logger.error(f"Failed to load model: {e}")
+            raise HTTPException(status_code=503, detail=f"Model loading failed: {e}")
+    
+    return ml_objects["model"], store
 
 
 @app.post("/predict", tags=["Inference"])
@@ -380,7 +385,13 @@ def recommend(request: UserRecommendationRequest):
 
 @app.get("/health", tags=["Health"])
 def health():
-    """Health check endpoint."""
+    """Health check endpoint - returns OK for startup probe."""
+    return "OK"
+
+
+@app.get("/health/detailed", tags=["Health"])
+def health_detailed():
+    """Detailed health check endpoint."""
     model_loaded = ml_objects["model"] is not None
     store_connected = ml_objects["store"] is not None
     
