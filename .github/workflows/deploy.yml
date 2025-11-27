@@ -1,0 +1,284 @@
+name: Mobile Item Recommendation System
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  REGION: us-central1
+  REGISTRY: us-central1-docker.pkg.dev
+  REPOSITORY: mlops-repo
+  IMAGE_NAME: mlops-core
+  SERVICE_NAME: mobile-item-recommendation-api
+
+jobs:
+  build-push:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image: ${{ steps.set-image.outputs.image }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+      
+      - name: Set image tag
+        id: set-image
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
+          echo "image=${IMAGE}" >> $GITHUB_OUTPUT
+          echo "Building image: ${IMAGE}"
+      
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ steps.set-image.outputs.image }} \
+            -t ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest \
+            -f docker/Dockerfile.ml \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            .
+      
+      - name: Push Docker image
+        run: |
+          docker push ${{ steps.set-image.outputs.image }}
+          docker push ${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
+      
+      - name: Image digest
+        run: docker images --digests | grep ${{ env.IMAGE_NAME }}
+
+  deploy-backend-vm:
+    name: Deploy Backend to VM
+    needs: build-push
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GCP_VM_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          timeout: 60s
+          command_timeout: 10m
+          script: |
+            set -e
+            echo "Starting deployment on VM..."
+            
+            PROJECT_DIR=~/mobile-item-recommendation-system
+            REPO_URL=${{ secrets.REPO_URL || 'https://github.com/${{ github.repository }}.git' }}
+            
+            # Check if project directory exists
+            if [ ! -d "$PROJECT_DIR" ]; then
+              echo "⚠️  Project directory not found. Initializing first-time setup..."
+              
+              # Clone repository
+              echo "Cloning repository from ${REPO_URL}..."
+              git clone $REPO_URL $PROJECT_DIR
+              
+              cd $PROJECT_DIR
+              
+              # Set up GCP authentication for Docker (if key exists)
+              if [ -f ~/gcp-key.json ]; then
+                echo "Setting up Docker authentication..."
+                cat ~/gcp-key.json | docker login -u _json_key --password-stdin https://${{ env.REGION }}-docker.pkg.dev
+              else
+                echo "⚠️  Warning: ~/gcp-key.json not found. Docker authentication may be required."
+              fi
+              
+              echo "✅ First-time setup completed!"
+            else
+              echo "✅ Project directory exists. Proceeding with update..."
+              cd $PROJECT_DIR
+              
+              # Pull latest code
+              echo "Pulling latest code..."
+              git fetch origin
+              git reset --hard origin/main
+              
+              # Authenticate Docker with GCP (if needed)
+              if [ -f ~/gcp-key.json ]; then
+                cat ~/gcp-key.json | docker login -u _json_key --password-stdin https://${{ env.REGION }}-docker.pkg.dev
+              fi
+            fi
+            
+            # Ensure we're in the project directory
+            cd $PROJECT_DIR
+            
+            # Check if docker-compose.yml exists
+            if [ ! -f docker-compose.yml ]; then
+              echo "❌ Error: docker-compose.yml not found!"
+              exit 1
+            fi
+            
+            # Pull latest images
+            echo "Pulling Docker images..."
+            docker-compose pull
+            
+            # Stop old containers gracefully
+            echo "Stopping old containers..."
+            docker-compose down --remove-orphans
+            
+            # Start new containers
+            echo "Starting new containers..."
+            docker-compose up -d
+            
+            # Wait for services to be healthy
+            echo "Waiting for services to start..."
+            sleep 15
+            
+            # Check service health
+            echo "Checking service health..."
+            docker-compose ps
+            
+            # Check if critical services are running
+            if ! docker-compose ps | grep -q "Up"; then
+              echo "⚠️  Warning: Some services may not be running properly"
+              docker-compose logs --tail=20
+            fi
+            
+            # Clean up old images
+            echo "Cleaning up old images..."
+            docker image prune -f --filter "until=24h"
+            
+            echo "✅ Deployment completed successfully!"
+      
+      - name: Verify deployment
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.GCP_VM_IP }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/mobile-item-recommendation-system
+            
+            echo "=== Container Status ==="
+            docker-compose ps
+            
+            echo ""
+            echo "=== Recent Logs ==="
+            docker-compose logs --tail=50
+            
+            echo ""
+            echo "=== Disk Usage ==="
+            df -h | grep -E 'Filesystem|/dev/sda'
+            
+            echo ""
+            echo "=== Docker Resources ==="
+            docker system df
+
+  deploy-api-cloudrun:
+    name: Deploy API to Cloud Run
+    needs: build-push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ env.SERVICE_NAME }}
+          region: ${{ env.REGION }}
+          image: ${{ needs.build-push.outputs.image }}
+          flags: |
+            --allow-unauthenticated
+            --memory=2Gi
+            --cpu=2
+            --timeout=300
+            --max-instances=10
+            --min-instances=1
+            --cpu-boost
+            --port=8000
+          env_vars: |
+            MLFLOW_TRACKING_URI=http://${{ secrets.GCP_VM_IP }}:5000
+            FEAST_REPO_PATH=/app/feature_repo
+            REDIS_HOST=${{ secrets.GCP_VM_IP }}
+            DATA_PATH=/app/data/raw
+            LOG_LEVEL=INFO
+          secrets: |
+            GCP_PROJECT=GCP_PROJECT:latest
+      
+      - name: Get Service URL
+        id: service-url
+        run: |
+          URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+            --region=${{ env.REGION }} \
+            --format='value(status.url)')
+          echo "url=${URL}" >> $GITHUB_OUTPUT
+          echo "Service URL: ${URL}"
+      
+      - name: Health check
+        run: |
+          echo "Waiting for service to be ready..."
+          sleep 15
+          
+          URL="${{ steps.service-url.outputs.url }}/health"
+          echo "Checking health endpoint: ${URL}"
+          
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" ${URL})
+          
+          if [ "$RESPONSE" = "200" ]; then
+            echo "✅ Health check passed!"
+            curl -s ${URL} | jq .
+          else
+            echo "❌ Health check failed with status: ${RESPONSE}"
+            exit 1
+          fi
+      
+      - name: Test predict endpoint
+        run: |
+          URL="${{ steps.service-url.outputs.url }}/predict"
+          echo "Testing predict endpoint: ${URL}"
+          
+          curl -X POST ${URL} \
+            -H "Content-Type: application/json" \
+            -d '{
+              "user_id": 1,
+              "item_id": 1000,
+              "item_category": 100
+            }' | jq .
+
+  notify:
+    name: Send Notification
+    needs: [deploy-backend-vm, deploy-api-cloudrun]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ needs.deploy-backend-vm.result }}" = "success" ] && [ "${{ needs.deploy-api-cloudrun.result }}" = "success" ]; then
+            echo "✅ All deployments successful!"
+          else
+            echo "❌ Some deployments failed"
+            echo "Backend VM: ${{ needs.deploy-backend-vm.result }}"
+            echo "Cloud Run API: ${{ needs.deploy-api-cloudrun.result }}"
+            exit 1
+          fi

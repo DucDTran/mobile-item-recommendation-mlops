@@ -1,0 +1,170 @@
+services:
+  # ==========================================
+  # 1. POSTGRES (Backend DB)
+  # ==========================================
+  postgres:
+    image: postgres:13
+    container_name: mlops_postgres
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=mlops_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "user"]
+      interval: 5s
+      retries: 5
+
+  # ==========================================
+  # 2. REDIS (Feast Online Store)
+  # ==========================================
+  redis:
+    image: redis:6.2
+    container_name: mlops_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+
+  # ==========================================
+  # 3. MLFLOW (Tracking Server)
+  # ==========================================
+  mlflow:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mlops_mlflow
+    restart: always
+    command: >
+      mlflow server 
+      --backend-store-uri postgresql://user:password@postgres:5432/mlops_db
+      --default-artifact-root file:///app/mlflow/artifacts
+      --serve-artifacts
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../src/mlruns:/app/mlflow/artifacts
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==========================================
+  # 4. FASTAPI (Model Serving + Feast)
+  # ==========================================
+  fastapi:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mlops_fastapi
+    command: uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - FEAST_USAGE=False
+      - FEAST_REPO_PATH=/app/feature_repo
+    volumes:
+      - ../src:/app/src                  # Hot-reload code
+      - ../feature_repo:/app/feature_repo # Hot-reload feature definitions
+      - ../data:/app/data                # Access Parquet files
+      - ../src/mlruns:/app/mlflow/artifacts   # Access MLflow artifacts (read-only)
+    depends_on:
+      - mlflow
+      - redis
+
+  # ==========================================
+  # 5. AIRFLOW WEBSERVER (Orchestration UI)
+  # ==========================================
+  airflow-webserver:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mlops_airflow_web
+    restart: always
+    # Migrate DB, Create Admin User (if not exists), Start Server
+    command: >
+      bash -c "
+      airflow db upgrade || airflow db reset --yes &&
+      airflow users create --username admin --password admin --firstname Duc --lastname Tran --role Admin --email admin@example.com || true &&
+      airflow webserver"
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/mlops_db
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../airflow/dags:/app/airflow/dags
+      - ../data:/app/data
+      - ../src:/app/src
+      - ../feature_repo:/app/feature_repo
+      - ../src/mlruns:/app/mlflow/artifacts  # Shared MLflow artifacts directory
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ==========================================
+  # 6. AIRFLOW SCHEDULER (Task Execution)
+  # ==========================================
+  airflow-scheduler:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: mlops_airflow_scheduler
+    restart: always
+    command: >
+      bash -c "
+      airflow db upgrade &&
+      airflow scheduler"
+    environment:
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/mlops_db
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      - PYTHONPATH=/app
+    volumes:
+      - ../airflow/dags:/app/airflow/dags
+      - ../data:/app/data
+      - ../src:/app/src
+      - ../feature_repo:/app/feature_repo
+      - ../src/mlruns:/app/mlflow/artifacts  # Shared MLflow artifacts directory
+    depends_on:
+      - airflow-webserver
+      - redis # Needs Redis for Feast materialization jobs
+
+  # ==========================================
+  # 7. PROMETHEUS & GRAFANA (Monitoring)
+  # ==========================================
+  prometheus:
+    image: prom/prometheus
+    container_name: mlops_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - fastapi
+
+  grafana:
+    image: grafana/grafana
+    container_name: mlops_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+volumes:
+  postgres_data:
