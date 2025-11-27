@@ -40,8 +40,8 @@ services:
       dockerfile: docker/Dockerfile
     container_name: mlops_mlflow
     restart: always
-    entrypoint: ["/app/init-mlflow-db.sh"]
-    command: []
+    # entrypoint: ["/app/init-mlflow-db.sh"]
+    command: ["/usr/local/bin/init-mlflow-db.sh"]
     environment:
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=user
