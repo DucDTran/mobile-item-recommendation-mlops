@@ -23,4 +23,5 @@ COPY src/ /app/src/
 COPY feature_repo/ /app/feature_repo/
 COPY airflow/ /app/airflow/
 
-CMD ["bash"]
+# CMD ["bash"]
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
