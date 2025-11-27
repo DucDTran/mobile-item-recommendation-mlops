@@ -109,8 +109,8 @@ jobs:
             
             # Deploy Services
             echo "🔄 Restarting services..."
-            docker-compose pull
-            docker-compose up -d --remove-orphans
+            docker-compose -f docker/docker-compose.ymlpull
+            docker-compose -f docker/docker-compose.yml up -d --remove-orphans
             
             # Cleanup
             docker image prune -f --filter "until=24h"
