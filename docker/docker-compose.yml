@@ -4,6 +4,7 @@ services:
   # ==========================================
   postgres:
     image: postgres:13
+    platform: linux/amd64
     container_name: mlops_postgres
     environment:
       - POSTGRES_USER=user
@@ -25,6 +26,7 @@ services:
   # ==========================================
   redis:
     image: redis:6.2
+    platform: linux/amd64
     container_name: mlops_redis
     ports:
       - "6379:6379"
@@ -40,6 +42,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    platform: linux/amd64
     container_name: mlops_mlflow
     restart: always
     # entrypoint: ["/app/init-mlflow-db.sh"]
@@ -66,6 +69,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    platform: linux/amd64
     container_name: mlops_fastapi
     command: uvicorn src.app:app --host 0.0.0.0 --port 8000 --reload
     ports:
@@ -90,6 +94,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    platform: linux/amd64
     container_name: mlops_airflow_web
     restart: always
     # Migrate DB, Create Admin User (if not exists), Start Server
@@ -123,6 +128,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
+    platform: linux/amd64
     container_name: mlops_airflow_scheduler
     restart: always
     command: >
@@ -150,6 +156,7 @@ services:
   # ==========================================
   prometheus:
     image: prom/prometheus
+    platform: linux/amd64
     container_name: mlops_prometheus
     ports:
       - "9090:9090"
@@ -162,6 +169,7 @@ services:
 
   grafana:
     image: grafana/grafana
+    platform: linux/amd64
     container_name: mlops_grafana
     ports:
       - "3000:3000"

@@ -20,27 +20,27 @@ L
 __dummy"
 __dummy_idJalibaba_mobile_recsys
 ŸÉøöğÑ€ªÉ Û¤”
-U
-5
-	user_item"user_item_idJmobile_item_recommendation
-»¾ÉØ°İ²ï ŸÉøşá
-K
-+
-user"user_idJmobile_item_recommendation
-»¾É ¨Ø²ï ŸÉÀûâ
-K
-+
-item"item_idJmobile_item_recommendation
-»¾É°Şà²ï ŸÉğÙ‡â
 ]
 =
 user_category"user_category_idJmobile_item_recommendation
-»¾É˜İã²ï ŸÉ¸¹Šâ
+¡¡¡É Ó¡¡¡É Ó
+K
++
+item"item_idJmobile_item_recommendation
+¡¡¡É¸È¡¡¡É¸È
+K
++
+user"user_idJmobile_item_recommendation
+¡¡¡É˜¦‘¡¡¡É˜¦‘
+U
+5
+	user_item"user_item_idJmobile_item_recommendation
+¡¡¡Éøƒ’¡¡¡Éøƒ’
 Q
 1
 __dummy"
 __dummy_idJmobile_item_recommendation
-»¾É°”Ï²ï ŸÉ˜â1"$329394eb-56b7-422c-80f6-9ae778722742*“è É ß£2ë
+¡¡¡É°§¡¡¡ÉğÙ’1"$aa055cf4-78f9-43fe-8773-2565946eb50f*—¢¡ÉÈÒª2ë
 Ø
 ui_stats_3dalibaba_mobile_recsys	user_item"
 last_3d_ui_clk"
@@ -178,38 +178,41 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 æ†Éô‰É
 ô‰É”‘É
 ”‘Éî˜É
-î˜É€ªÉ2ñ
+î˜É€ªÉ2„
 ­
 recency_statsmobile_item_recommendation	user_item"
 last_touch_hour"
 
 days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquet@b
-user_item_id?
-»¾ÉÀŒÂ²¸¡ŸÉ¨˜àp
+user_item_idR
+»¾ÉÀŒÂ²ò¡¡ÉÀûŞ
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2´
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Æ
 İ
 ui_stats_3dmobile_item_recommendation	user_item"
 last_3d_ui_clk"
 last_3d_ui_fav"
 last_3d_ui_cart"
 last_3d_ui_buy2€ç„:ºevent_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquet@b
-user_item_idR
-»¾ÉàŠĞ±Ä¡ŸÉØ›†ø
+user_item_idd
+»¾ÉàŠĞ±ş¡¡ÉØØ«Ô
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2¼
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Í
 å
 uc_stats_1dmobile_item_recommendationuser_category"
 last_1d_uc_clk"
 last_1d_uc_fav"
 last_1d_uc_cart"
 last_1d_uc_buy2€ç„:ºevent_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquet@b
-user_category_idR
-»¾É°ºï±Ğ¡ŸÉ¸šÍà
+user_category_idc
+»¾É°ºï±¢¡É°ï¯{
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2é
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2û
 “
 item_stats_1dmobile_item_recommendationitem"
 last_1d_item_clk"
@@ -218,22 +221,24 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_1d_item_buy"
 last_1d_item_cr"
 last_1d_item_uniq_users2€ç„:¾event_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquet@b
-item_idQ
-»¾Éàâ†²Ù¡ŸÉˆûŸ
+item_idc
+»¾Éàâ†²…¢¡É€Œ‘v
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2´
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Å
 İ
 ui_stats_1dmobile_item_recommendation	user_item"
 last_1d_ui_clk"
 last_1d_ui_fav"
 last_1d_ui_cart"
 last_1d_ui_buy2€ç„:ºevent_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquet@b
-user_item_idR
-»¾É˜Ó“²Û¡ŸÉ¸—”
+user_item_idc
+»¾É˜Ó“²ˆ¢¡ÉÈ¢Æ{
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2Ì
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2ß
 ö
 user_stats_1dmobile_item_recommendationuser"
 last_1d_user_clk"
@@ -241,22 +246,24 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_1d_user_cart"
 last_1d_user_buy"
 last_1d_user_cr2€ç„:¾event_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquet@b
-user_idQ
-»¾ÉÀ‡š²Ü¡ŸÉàÎ¿@
+user_idd
+»¾ÉÀ‡š²ˆ¢¡É¨îı»
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2¼
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Í
 å
 uc_stats_3dmobile_item_recommendationuser_category"
 last_3d_uc_clk"
 last_3d_uc_fav"
 last_3d_uc_cart"
 last_3d_uc_buy2€ç„:ºevent_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquet@b
-user_category_idR
-»¾ÉÀì¢²à¡ŸÉÈëÇ²
+user_category_idc
+»¾ÉÀì¢²¢¡ÉˆŠQ
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2Í
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2ß
 ö
 user_stats_3dmobile_item_recommendationuser"
 last_3d_user_clk"
@@ -264,11 +271,12 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_3d_user_cart"
 last_3d_user_buy"
 last_3d_user_cr2€ç„:¾event_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquet@b
-user_idR
-»¾É€™©²á¡ŸÉèìÌ
+user_idd
+»¾É€™©²¢¡É¢Íş
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2ê
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2û
 “
 item_stats_3dmobile_item_recommendationitem"
 last_3d_item_clk"
@@ -277,11 +285,12 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_3d_item_buy"
 last_3d_item_cr"
 last_3d_item_uniq_users2€ç„:¾event_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquet@b
-item_idR
-»¾ÉÀ³µ²ë¡ŸÉ¸…ß
+item_idc
+»¾ÉÀ³µ²—¢¡Éàå¡
 €ÅĞ¢€œ’¥
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥bÑevent_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationzB
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥bÛevent_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÑevent_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationzB
 mobile_item_recommendation$42e86223-a638-4a9f-8d2a-07aefa0f2236Š7
 
 alibaba_mobile_recsys
