@@ -105,7 +105,7 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     logger.info("🚀 Starting API Lifespan")
 
-    # Load Feature Store
+    # Load Feature Store (local, fast)
     try:
         logger.info(f"Connecting to Feature Store at {FEATURE_REPO_PATH}...")
         ml_objects["store"] = FeatureStore(repo_path=FEATURE_REPO_PATH)
@@ -113,12 +113,10 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"✗ CRITICAL: Failed to load Feature Store: {e}")
 
-    # Load Model (with short timeout to not block startup)
-    try:
-        ml_objects["model"] = load_mlflow_model(timeout=15)
-    except Exception as e:
-        logger.warning(f"⚠ Model not loaded during startup: {e}")
-        logger.warning("Model will be loaded on first prediction request")
+    # NOTE: Model loading is intentionally deferred to first request (lazy loading)
+    # This prevents Cloud Run startup probe timeout since MLflow model download 
+    # can take 30+ seconds. The model will be loaded in validate_service() on first call.
+    logger.info("⏳ Model will be loaded lazily on first prediction request")
 
     yield
 
@@ -254,7 +252,8 @@ def validate_service() -> tuple[Any, Any]:
     if not ml_objects["model"]:
         logger.info("Model not loaded, attempting lazy load...")
         try:
-            ml_objects["model"] = load_mlflow_model(timeout=30)
+            # Use longer timeout (60s) for first load - model download can be slow
+            ml_objects["model"] = load_mlflow_model(timeout=60)
         except Exception as e:
             logger.error(f"Failed to load model: {e}")
             raise HTTPException(status_code=503, detail=f"Model loading failed: {e}")
