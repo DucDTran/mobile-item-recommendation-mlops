@@ -28,3 +28,4 @@ __pycache__
 secrets/
 mlruns/
 notebooks/mlruns/
+data/raw/tianchi_fresh_com_train_item_online.txt
