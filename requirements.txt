@@ -15,6 +15,7 @@ prometheus-fastapi-instrumentator
 fsspec
 gcsfs
 google-cloud-storage
+kubernetes
 pyarrow
 virtualenv
 loguru
