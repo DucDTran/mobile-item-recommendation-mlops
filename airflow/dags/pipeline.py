@@ -58,6 +58,7 @@ with DAG(
             # GCS credentials for uploading model artifacts
             'GOOGLE_APPLICATION_CREDENTIALS': '/app/secrets/gcp_key.json'
         },
+        append_env=True,  # Inherit parent environment variables
         doc_md="Trains XGBoost model, logs to MLflow, and promotes to Production if valid."
     )
 
