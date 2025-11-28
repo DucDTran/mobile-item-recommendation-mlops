@@ -111,6 +111,7 @@ services:
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
+      - AIRFLOW__WEBSERVER__SECRET_KEY=86d07339b141b1e87488e24f7daf91993bbecc8a814731fa91f62f3e96517f68
       - MLFLOW_TRACKING_URI=http://mlflow:5000
     ports:
       - "8080:8080"
@@ -142,6 +143,7 @@ services:
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql://user:password@postgres:5432/airflow_db
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__CORE__DAGS_FOLDER=/app/airflow/dags
+      - AIRFLOW__WEBSERVER__SECRET_KEY=86d07339b141b1e87488e24f7daf91993bbecc8a814731fa91f62f3e96517f68
       - MLFLOW_TRACKING_URI=http://mlflow:5000
       - PYTHONPATH=/app
       - GOOGLE_APPLICATION_CREDENTIALS=/app/secrets/gcp_key.json

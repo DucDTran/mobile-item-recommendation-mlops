@@ -19,7 +19,7 @@ import xgboost as xgb
 # Use absolute paths for Docker, relative paths for local dev
 DATA_PATH = os.getenv("DATA_PATH", "/app/data/raw")
 FEATURE_PATH = os.getenv("FEATURE_PATH", "/app/data/features")
-MLFLOW_EXPERIMENT_NAME = "mobile-item-recommendation"
+MLFLOW_EXPERIMENT_NAME = "mobile-item-recommendation-experiment"
 RAW_USERS = f"{DATA_PATH}/users.parquet"
 
 def downsample(df, ratio=20):
