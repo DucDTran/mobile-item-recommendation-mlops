@@ -160,6 +160,25 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
       
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+      
+      - name: Setup GCP Credentials Secret
+        run: |
+          # Create secret if it doesn't exist
+          if ! gcloud secrets describe gcp-credentials --project=${{ env.PROJECT_ID }} 2>/dev/null; then
+            echo "Creating new secret..."
+            echo '${{ secrets.GCP_CREDENTIALS }}' | gcloud secrets create gcp-credentials \
+              --project=${{ env.PROJECT_ID }} \
+              --replication-policy="automatic" \
+              --data-file=-
+          else
+            echo "Updating existing secret..."
+            echo '${{ secrets.GCP_CREDENTIALS }}' | gcloud secrets versions add gcp-credentials \
+              --project=${{ env.PROJECT_ID }} \
+              --data-file=-
+          fi
+      
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v2
@@ -176,6 +195,9 @@ jobs:
             DATA_PATH=/app/data/raw
             LOG_LEVEL=INFO
             GCS_BUCKET_NAME=mobile-item-recommendation-mlflow-artifacts
+            GOOGLE_APPLICATION_CREDENTIALS=/secrets/gcp_key.json
+          secrets: |
+            /secrets/gcp_key.json=gcp-credentials:latest
       
       - name: Health Check
         run: |

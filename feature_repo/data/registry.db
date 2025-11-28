@@ -1,25 +1,25 @@
 
-K
-+
-item"item_idJmobile_item_recommendation
-ş‘¢ÉèÌâ¨ş‘¢ÉèÌâ¨
-K
-+
-user"user_idJmobile_item_recommendation
-ş‘¢ÉÈ’ë¨ş‘¢ÉÈ’ë¨
 U
 5
 	user_item"user_item_idJmobile_item_recommendation
-ş‘¢É Ãí¨ş‘¢É Ãí¨
+°ì£É¨ºÈ°ì£É¨ºÈ
+K
++
+user"user_idJmobile_item_recommendation
+°ì£ÉğœÊ°ì£ÉğœÊ
+K
++
+item"item_idJmobile_item_recommendation
+°ì£É¸ÿË°ì£É¸ÿË
 ]
 =
 user_category"user_category_idJmobile_item_recommendation
-ş‘¢ÉˆÅï¨ş‘¢ÉˆÅï¨
+°ì£ÉàÂÍ°ì£ÉàÂÍ
 Q
 1
 __dummy"
 __dummy_idJmobile_item_recommendation
-ş‘¢Éà“è¨ş‘¢Éˆ¿ñ¨1"$bc06aa92-e36a-410b-b0b3-a0a5ef4d9dc0*¤“¢ÉÀÃã2Ø
+°ì£ÉÎÄ°ì£É˜×Î1"$b35d441f-cdfa-44d0-bd09-41aa2c119724*¬¤Éğ³°¡2ê
 “
 item_stats_3dmobile_item_recommendationitem"
 last_3d_item_clk"
@@ -28,10 +28,11 @@ __dummy_idJmobile_item_recommendation
 last_3d_item_buy"
 last_3d_item_cr"
 last_3d_item_uniq_users2€ç„:¾event_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquet@b
-item_id@
-•†¢É¨å¤­œ’¢ÉˆÄîà
+item_idR
+•†¢É¨å¤­êü£É°ÓÅÕ
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2º
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Í
 ö
 user_stats_1dmobile_item_recommendationuser"
 last_1d_user_clk"
@@ -39,19 +40,21 @@ __dummy_idJmobile_item_recommendation
 last_1d_user_cart"
 last_1d_user_buy"
 last_1d_user_cr2€ç„:¾event_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquet@b
-user_id?
-•†¢Éà–Æ­’¢É˜ìÒ9
+user_idR
+•†¢Éà–Æ­ëü£ÉˆŸ§İ
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2ñ
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2ƒ
 ­
 recency_statsmobile_item_recommendation	user_item"
 last_touch_hour"
 
 days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquet@b
-user_item_id?
-•†¢ÉÈúÑ­“¢Éˆ´ì 
+user_item_idQ
+•†¢ÉÈúÑ­¤ÉĞªÆ9
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2º
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2Í
 ö
 user_stats_3dmobile_item_recommendationuser"
 last_3d_user_clk"
@@ -59,20 +62,22 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_3d_user_cart"
 last_3d_user_buy"
 last_3d_user_cr2€ç„:¾event_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquet@b
-user_id?
-•†¢Éğ¨Ú­“¢É¸Äˆ"
+user_idR
+•†¢Éğ¨Ú­¤Éè®ò 
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2ª
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2»
 å
 uc_stats_3dmobile_item_recommendationuser_category"
 last_3d_uc_clk"
 last_3d_uc_fav"
 last_3d_uc_cart"
 last_3d_uc_buy2€ç„:ºevent_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquet@b
-user_category_id@
-•†¢É°Ãæ­‘“¢ÉØ˜Ğ¶
+user_category_idQ
+•†¢É°Ãæ­ ¤É°ƒ>
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2Ø
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2é
 “
 item_stats_1dmobile_item_recommendationitem"
 last_1d_item_clk"
@@ -81,38 +86,42 @@ days_since2€ç„:´event_timestampZ53/app/data/features/recency_stats_20
 last_1d_item_buy"
 last_1d_item_cr"
 last_1d_item_uniq_users2€ç„:¾event_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquet@b
-item_id@
-•†¢É˜°ï­”“¢Éà›Şâ
+item_idQ
+•†¢É˜°ï­¢¤ÉÉò 
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2ª
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2¼
 å
 uc_stats_1dmobile_item_recommendationuser_category"
 last_1d_uc_clk"
 last_1d_uc_fav"
 last_1d_uc_cart"
 last_1d_uc_buy2€ç„:ºevent_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquet@b
-user_category_id@
-•†¢ÉˆÁù­–“¢Éèí˜½
+user_category_idR
+•†¢ÉˆÁù­¢¤É¨è 
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2¢
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2´
 İ
 ui_stats_3dmobile_item_recommendation	user_item"
 last_3d_ui_clk"
 last_3d_ui_fav"
 last_3d_ui_cart"
 last_3d_ui_buy2€ç„:ºevent_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquet@b
-user_item_id@
-•†¢ÉØµ‚®Ÿ“¢ÉØÊğ‡
+user_item_idR
+•†¢ÉØµ‚®ª¤ÉÀ§—
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥2¢
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥2´
 İ
 ui_stats_1dmobile_item_recommendation	user_item"
 last_1d_ui_clk"
 last_1d_ui_fav"
 last_1d_ui_cart"
 last_1d_ui_buy2€ç„:ºevent_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquet@b
-user_item_id@
-•†¢É¨§Œ®¤“¢ÉÈ¾È
+user_item_idR
+•†¢É¨§Œ®¬¤Éø¤¡
 €ÅĞ¢€œ’¥
-€ÅĞ¢€œ’¥b×event_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÑevent_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationzB
+€ÅĞ¢€œ’¥
+€ÅĞ¢€œ’¥bÛevent_timestampZ:8/app/data/features/user_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÑevent_timestampZ53/app/data/features/recency_stats_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢3/app/data/features/recency_stats_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/uc_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/uc_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/item_stats_last_3d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/item_stats_last_3d_2014-12-18.parquetªmobile_item_recommendationbÛevent_timestampZ:8/app/data/features/user_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢8/app/data/features/user_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationb×event_timestampZ86/app/data/features/ui_stats_last_1d_2014-12-18.parquetŠ1feast.infra.offline_stores.file_source.FileSource¢6/app/data/features/ui_stats_last_1d_2014-12-18.parquetªmobile_item_recommendationzB
 mobile_item_recommendation$341b6ed0-0d9a-48c5-8268-a2a5f4c8b054
